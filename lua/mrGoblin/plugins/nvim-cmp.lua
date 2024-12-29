@@ -4,12 +4,11 @@ return {
   dependencies = {
     "hrsh7th/cmp-buffer", -- source for text in buffer
     "hrsh7th/cmp-path", -- source for file system paths
+    "hrsh7th/cmp-cmdline", -- source for command-line completion
     {
       "L3MON4D3/LuaSnip",
-      -- follow latest release.
-      version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-      -- install jsregexp (optional!).
-      build = "make install_jsregexp",
+      version = "v2.*", -- follow latest release
+      build = "make install_jsregexp", -- install jsregexp (optional)
     },
     "saadparwaiz1/cmp_luasnip", -- for autocompletion
     "rafamadriz/friendly-snippets", -- useful snippets
@@ -17,9 +16,7 @@ return {
   },
   config = function()
     local cmp = require("cmp")
-
     local luasnip = require("luasnip")
-
     local lspkind = require("lspkind")
 
     -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
@@ -37,11 +34,11 @@ return {
       mapping = cmp.mapping.preset.insert({
         ["˚"] = cmp.mapping.select_prev_item(), -- previous suggestion
         ["∆"] = cmp.mapping.select_next_item(), -- next suggestion
-        ["∫"] = cmp.mapping.scroll_docs(-4), --scroll docs up
-        ["ƒ"] = cmp.mapping.scroll_docs(4), --scroll doc down
+        ["∫"] = cmp.mapping.scroll_docs(-4), -- scroll docs up
+        ["ƒ"] = cmp.mapping.scroll_docs(4), -- scroll docs down
         [" "] = cmp.mapping.complete(), -- show completion suggestions
         ["´"] = cmp.mapping.abort(), -- close completion window
-        ["<Tab>"] = cmp.mapping.confirm({ select = true }),
+        ["<Tab>"] = cmp.mapping.confirm({ select = true }), -- confirm selection
       }),
       -- sources for autocompletion
       sources = cmp.config.sources({
@@ -49,9 +46,8 @@ return {
         { name = "luasnip" }, -- snippets
         { name = "buffer" }, -- text within current buffer
         { name = "path" }, -- file system paths
-        { name = "vim-dadbod-completion" }, -- for dadbob database
+        { name = "vim-dadbod-completion" }, -- dadbod database
       }),
-
       -- configure lspkind for vs-code like pictograms in completion menu
       formatting = {
         format = lspkind.cmp_format({
@@ -59,6 +55,15 @@ return {
           ellipsis_char = "...",
         }),
       },
+    })
+
+    -- Command-line completion setup
+    cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = "path" }, -- file system paths
+        { name = "cmdline", option = { igonre_cmds = { "Man", "!" } } }, -- command-line completions
+      }),
     })
   end,
 }

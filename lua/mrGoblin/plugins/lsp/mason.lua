@@ -37,8 +37,9 @@ return {
         "prismals",
         "pyright",
         "rust_analyzer",
-        "java_language_server",
+        "jdtls",
         "sqlls",
+        "clangd",
       },
     })
 

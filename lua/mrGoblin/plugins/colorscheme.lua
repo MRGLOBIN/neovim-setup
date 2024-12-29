@@ -2,8 +2,8 @@
 --   "folke/tokyonight.nvim",
 --   priority = 1000,
 --   config = function()
---     local transparent = false -- set to true if you would like to enable transparency
-
+--     local transparent = true -- set to true if you would like to enable transparency
+--
 --     local bg = "#021526"
 --     local bg_dark = "#011423"
 --     local bg_highlight = "#143652"
@@ -14,7 +14,7 @@
 --     local fg_gutter = "#627E97"
 --     local border = "#547998"
 --     local comment_fg = "#00b300"
-
+--
 --     require("tokyonight").setup({
 --       style = "night",
 --       transparent = transparent,
@@ -38,18 +38,14 @@
 --         colors.fg_float = fg
 --         colors.fg_gutter = fg_gutter
 --         colors.fg_sidebar = fg_dark
---          colors.comment = comment_fg
-
+--         colors.comment = comment_fg
 --       end,
 --     })
-
+--
 --     vim.cmd("colorscheme tokyonight")
 --   end,
 -- }
-
-
-
-
+--
 -- night Owl
 return {
   "oxfist/night-owl.nvim",
@@ -63,5 +59,5 @@ return {
 
     -- Then set the colorscheme
     vim.cmd("colorscheme night-owl")
-  end
+  end,
 }

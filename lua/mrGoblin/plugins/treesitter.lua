@@ -17,9 +17,9 @@ return {
       indent = { enable = true },
       -- ensure these language parsers are installed
       -- enable autotagging (w/ nvim-ts-autotag plugin)
-      autotag = {
-        enable = true,
-      },
+      -- autotag = {
+      --   enable = true,
+      -- },
       ensure_installed = {
         "json",
         "javascript",
@@ -40,6 +40,8 @@ return {
         "query",
         "vimdoc",
         "c",
+        "cpp",
+        "java",
       },
       -- Add modules configuration
       modules = {}, -- Add any specific modules you want to configure

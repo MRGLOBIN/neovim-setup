@@ -28,10 +28,10 @@ return {
         file_ignore_patterns = { "node_modules/*", "target/*" }, -- Add this line to ignore node_modules
         mappings = {
           i = {
-            ["<˚>"] = actions.move_selection_previous, -- move to prev result
-            ["<∆>"] = actions.move_selection_next, -- move to next result
-            ["<œ>"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist, --dont know
-            ["<†>"] = trouble_telescope.open, -- open trouble
+            ["˚"] = actions.move_selection_previous, -- move to prev result
+            ["∆"] = actions.move_selection_next, -- move to next result
+            ["œ"] = actions.send_selected_to_qflist + custom_actions.open_trouble_qflist, --dont know
+            ["†"] = trouble_telescope.open, -- open trouble
           },
         },
       },

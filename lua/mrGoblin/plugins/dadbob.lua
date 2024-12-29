@@ -1,14 +1,21 @@
 return {
-  {
-    "tpope/vim-dadbod",
-    dependencies = {
-      -- Optional dependencies to improve your experience
-      "kristijanhusak/vim-dadbod-ui", -- UI for database management
-      "kristijanhusak/vim-dadbod-completion", -- Auto-completion for SQL queries
-    },
-    config = function()
-      -- Optional configuration for vim-dadbod-ui and vim-dadbod-completion
-      vim.g.db_ui_save_location = "~/database_ui_queries" -- Set the directory to save your queries
-    end,
+  "kristijanhusak/vim-dadbod-ui",
+  dependencies = {
+    { "tpope/vim-dadbod", lazy = true },
+    { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true }, -- Optional
   },
+  cmd = {
+    "DBUI",
+    "DBUIToggle",
+    "DBUIAddConnection",
+    "DBUIFindBuffer",
+  },
+  init = function()
+    -- Your DBUI configuration
+    vim.g.db_ui_save_location = "~/database_ui_queries"
+    vim.g.db_ui_use_nerd_fonts = 1
+
+    -- custom keymaps
+    vim.keymap.set("n", "<leader>db", ":DBUIToggle<CR>", { desc = "Toggle DBUI" })
+  end,
 }
