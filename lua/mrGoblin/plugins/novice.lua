@@ -8,31 +8,36 @@ return {
     config = function()
       -- Set up nvim-notify
       require("notify").setup({
-        -- You can customize options for nvim-notify here
-        background_colour = "#000000",
-        stages = "fade_in_slide_out", -- Fade in with slide-out animation
-        timeout = 3000,
+        -- Customize options for nvim-notify
+        background_colour = "#1e1e1e", -- Adjust for dark background
+        stages = "fade_in_slide_out", -- You can test other stages like 'fade'
+        timeout = 4000, -- Notification timeout (in milliseconds)
         render = "simple",
-        max_width = 80, -- Adjust this value to control line wrapping
-        fps = 60, -- A
+        max_width = 100, -- Adjust for better wrapping control
+        fps = 60,
+        merge_duplicates = true,
       })
 
       -- Set up noice.nvim
       require("noice").setup({
         cmdline = {
           enabled = true,
-          view = "cmdline_popup", -- or "cmdline", "cmdline_popup"
+          view = "cmdline_popup", -- Use 'cmdline' or 'cmdline_popup' for cmdline
         },
         messages = {
-          enabled = true, -- prettifies messages
+          enabled = false, -- Disable general message prettification to avoid interfering with LSP
         },
         popupmenu = {
-          enabled = false, -- nice popup menu
+          enabled = true, -- Enable popupmenu for LSP code actions and completions
         },
         routes = {
           {
-            filter = { event = "msg_show" },
-            opts = { skip = true }, -- Skip regular messages if you want to use notifications instead
+            filter = { event = "msg_show", kind = "lsp" }, -- Allow LSP messages to pass through
+            opts = { skip = false }, -- Don't skip LSP messages
+          },
+          {
+            filter = { event = "msg_show" }, -- Skip regular messages
+            opts = { skip = true },
           },
         },
         notify = {

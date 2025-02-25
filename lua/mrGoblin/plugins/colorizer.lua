@@ -5,6 +5,10 @@ return {
     require("colorizer").setup({
       "css",
       "javascript",
+      "typescript",
+      "tsx",
+      "jsx",
+      "markdown",
       html = {
         mode = "foreground",
       },
