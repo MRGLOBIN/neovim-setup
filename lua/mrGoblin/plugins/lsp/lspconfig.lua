@@ -10,10 +10,6 @@ return {
     -- import lspconfig plugin
     local lspconfig = require("lspconfig")
 
-    -- import mason_lspconfig plugin
-    -- This require should now work as expected because mason-lspconfig.nvim is listed as a dependency.
-    local mason_lspconfig = require("mason-lspconfig")
-
     -- import cmp-nvim-lsp plugin
     local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
@@ -78,91 +74,97 @@ return {
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
-
-    -- This is the line (previously line 80) that caused the error.
-    -- With mason-lspconfig.nvim as a dependency, mason_lspconfig should be correctly loaded.
-    mason_lspconfig.setup_handlers({
-      -- default handler for installed servers
-      function(server_name)
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end,
-      ["graphql"] = function()
-        -- configure graphql language server
-        lspconfig["graphql"].setup({
-          capabilities = capabilities,
-          filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-        })
-      end,
-      ["emmet_ls"] = function()
-        -- configure emmet language server
-        -- Note: The actual server name for lspconfig is 'emmet_language_server'.
-        -- The key 'emmet_ls' here is what mason-lspconfig uses to identify the server from mason.
-        lspconfig["emmet_language_server"].setup({
-          capabilities = capabilities,
-          filetypes = {
-            "css",
-            "eruby",
-            "html",
-            "javascript",
-            "javascriptreact",
-            "less",
-            "sass",
-            "scss",
-            "pug",
-            "typescriptreact",
-            "vue", -- Added vue as it's a common use case for emmet
-          },
-          -- Read more about these options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
-          -- **Note:** only the options listed in the table are supported.
-          init_options = {
-            ---@type table<string, string>
-            includeLanguages = {}, -- Example: {javascript = "javascriptreact"}
-            --- @type string[]
-            excludeLanguages = {},
-            --- @type string[]
-            extensionsPath = {},
-            --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
-            preferences = {},
-            --- @type boolean Defaults to `true`
-            showAbbreviationSuggestions = true,
-            --- @type "always" | "never" Defaults to `"always"`
-            showExpandedAbbreviation = "always",
-            --- @type boolean Defaults to `false`
-            showSuggestionsAsSnippets = false,
-            --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
-            syntaxProfiles = {},
-            --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
-            variables = {},
-          },
-        })
-      end,
-      ["lua_ls"] = function()
-        -- configure lua server (with special settings for Neovim development)
-        lspconfig["lua_ls"].setup({
-          capabilities = capabilities,
-          settings = {
-            Lua = {
-              -- make the language server recognize "vim" global
-              diagnostics = {
-                globals = { "vim" },
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-              -- This helps lua_ls understand your Neovim runtime files for better diagnostics and completion.
-              workspace = {
-                library = vim.api.nvim_get_runtime_file("", true),
-                checkThirdParty = false, -- Avoids issues with third-party libraries if not managed by lua_ls
-              },
-              telemetry = {
-                enable = false, -- Disable telemetry
-              },
-            },
-          },
-        })
-      end,
-    })
   end,
 }
+
+-- In the new version of mason-lspconfig this code is not needed anymore
+--
+--
+-- -- import mason_lspconfig plugin
+-- This require should now work as expected because mason-lspconfig.nvim is listed as a dependency.
+-- local mason_lspconfig = require("mason-lspconfig")
+--
+--
+-- mason_lspconfig.setup_handlers({
+--   -- default handler for installed servers
+--   function(server_name)
+--     lspconfig[server_name].setup({
+--       capabilities = capabilities,
+--     })
+--   end,
+--   ["graphql"] = function()
+--     -- configure graphql language server
+--     lspconfig["graphql"].setup({
+--       capabilities = capabilities,
+--       filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+--     })
+--   end,
+--   ["emmet_ls"] = function()
+--     -- configure emmet language server
+--     -- Note: The actual server name for lspconfig is 'emmet_language_server'.
+--     -- The key 'emmet_ls' here is what mason-lspconfig uses to identify the server from mason.
+--     lspconfig["emmet_language_server"].setup({
+--       capabilities = capabilities,
+--       filetypes = {
+--         "css",
+--         "eruby",
+--         "html",
+--         "javascript",
+--         "javascriptreact",
+--         "less",
+--         "sass",
+--         "scss",
+--         "pug",
+--         "typescriptreact",
+--         "vue", -- Added vue as it's a common use case for emmet
+--       },
+--       -- Read more about these options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
+--       -- **Note:** only the options listed in the table are supported.
+--       init_options = {
+--         ---@type table<string, string>
+--         includeLanguages = {}, -- Example: {javascript = "javascriptreact"}
+--         --- @type string[]
+--         excludeLanguages = {},
+--         --- @type string[]
+--         extensionsPath = {},
+--         --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/preferences/)
+--         preferences = {},
+--         --- @type boolean Defaults to `true`
+--         showAbbreviationSuggestions = true,
+--         --- @type "always" | "never" Defaults to `"always"`
+--         showExpandedAbbreviation = "always",
+--         --- @type boolean Defaults to `false`
+--         showSuggestionsAsSnippets = false,
+--         --- @type table<string, any> [Emmet Docs](https://docs.emmet.io/customization/syntax-profiles/)
+--         syntaxProfiles = {},
+--         --- @type table<string, string> [Emmet Docs](https://docs.emmet.io/customization/snippets/#variables)
+--         variables = {},
+--       },
+--     })
+--   end,
+--   ["lua_ls"] = function()
+--     -- configure lua server (with special settings for Neovim development)
+--     lspconfig["lua_ls"].setup({
+--       capabilities = capabilities,
+--       settings = {
+--         Lua = {
+--           -- make the language server recognize "vim" global
+--           diagnostics = {
+--             globals = { "vim" },
+--           },
+--           completion = {
+--             callSnippet = "Replace",
+--           },
+--           -- This helps lua_ls understand your Neovim runtime files for better diagnostics and completion.
+--           workspace = {
+--             library = vim.api.nvim_get_runtime_file("", true),
+--             checkThirdParty = false, -- Avoids issues with third-party libraries if not managed by lua_ls
+--           },
+--           telemetry = {
+--             enable = false, -- Disable telemetry
+--           },
+--         },
+--       },
+--     })
+--   end,
+-- })
