@@ -1,4 +1,4 @@
 return {
   "github/copilot.vim",
-  lazy = false, -- load on startup
+  lazy = true, -- load on startup
 }
