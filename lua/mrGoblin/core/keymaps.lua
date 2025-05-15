@@ -21,12 +21,11 @@ keymap.set("n", "<leader>tn", ":tabn<CR>") -- go to next tab
 keymap.set("n", "<leader>tp", ":tabp<CR>") -- go to previous tab
 
 -- vim navigation
--- Just stopped using the tmux iterm2 sperate terminals is my way
--- keymap.set("n", "˙", ":TmuxNavigateLeft<CR>")
--- keymap.set("n", "∆", "<cmd>TmuxNavigateDown<cr>")
--- keymap.set("n", "˚", "<cmd>TmuxNavigateUp<cr>")
--- keymap.set("n", "¬", "<cmd>TmuxNavigateRight<cr>")
--- keymap.set("n", "«", "<cmd>TmuxNavigatePrevious<cr>")
+keymap.set("n", "˙", ":TmuxNavigateLeft<CR>")
+keymap.set("n", "∆", "<cmd>TmuxNavigateDown<cr>")
+keymap.set("n", "˚", "<cmd>TmuxNavigateUp<cr>")
+keymap.set("n", "¬", "<cmd>TmuxNavigateRight<cr>")
+keymap.set("n", "«", "<cmd>TmuxNavigatePrevious<cr>")
 
 -- plugin keymaps
 --

@@ -11,6 +11,7 @@ return {
     local lspconfig = require("lspconfig")
 
     -- import mason_lspconfig plugin
+    -- This require should now work as expected because mason-lspconfig.nvim is listed as a dependency.
     local mason_lspconfig = require("mason-lspconfig")
 
     -- import cmp-nvim-lsp plugin
@@ -71,13 +72,15 @@ return {
     local capabilities = cmp_nvim_lsp.default_capabilities()
 
     -- Change the Diagnostic symbols in the sign column (gutter)
-    -- (not in youtube nvim video)
+    -- Ensure you have a Nerd Font installed and configured in your terminal for these icons to display correctly.
     local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
+    -- This is the line (previously line 80) that caused the error.
+    -- With mason-lspconfig.nvim as a dependency, mason_lspconfig should be correctly loaded.
     mason_lspconfig.setup_handlers({
       -- default handler for installed servers
       function(server_name)
@@ -94,13 +97,28 @@ return {
       end,
       ["emmet_ls"] = function()
         -- configure emmet language server
+        -- Note: The actual server name for lspconfig is 'emmet_language_server'.
+        -- The key 'emmet_ls' here is what mason-lspconfig uses to identify the server from mason.
         lspconfig["emmet_language_server"].setup({
-         filetypes = { "css", "eruby", "html", "javascript", "javascriptreact", "less", "sass", "scss", "pug", "typescriptreact" },
-          -- Read more about this options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
+          capabilities = capabilities,
+          filetypes = {
+            "css",
+            "eruby",
+            "html",
+            "javascript",
+            "javascriptreact",
+            "less",
+            "sass",
+            "scss",
+            "pug",
+            "typescriptreact",
+            "vue", -- Added vue as it's a common use case for emmet
+          },
+          -- Read more about these options in the [vscode docs](https://code.visualstudio.com/docs/editor/emmet#_emmet-configuration).
           -- **Note:** only the options listed in the table are supported.
           init_options = {
             ---@type table<string, string>
-            includeLanguages = {},
+            includeLanguages = {}, -- Example: {javascript = "javascriptreact"}
             --- @type string[]
             excludeLanguages = {},
             --- @type string[]
@@ -121,7 +139,7 @@ return {
         })
       end,
       ["lua_ls"] = function()
-        -- configure lua server (with special settings)
+        -- configure lua server (with special settings for Neovim development)
         lspconfig["lua_ls"].setup({
           capabilities = capabilities,
           settings = {
@@ -133,6 +151,14 @@ return {
               completion = {
                 callSnippet = "Replace",
               },
+              -- This helps lua_ls understand your Neovim runtime files for better diagnostics and completion.
+              workspace = {
+                library = vim.api.nvim_get_runtime_file("", true),
+                checkThirdParty = false, -- Avoids issues with third-party libraries if not managed by lua_ls
+              },
+              telemetry = {
+                enable = false, -- Disable telemetry
+              },
             },
           },
         })
@@ -140,4 +166,3 @@ return {
     })
   end,
 }
-
